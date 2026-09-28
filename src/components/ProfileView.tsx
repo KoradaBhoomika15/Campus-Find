@@ -256,6 +256,21 @@ export const ProfileView: React.FC = () => {
         </div>
       </div>
 
+      {/* Session Management & Logout Button */}
+      <div className="p-4 bg-white rounded-2xl border border-red-100 flex items-center justify-between">
+        <div>
+          <p className="text-xs font-bold text-[#27221E]">Account Session</p>
+          <p className="text-[11px] text-[#786F66]">Sign out from this device and return to the login screen.</p>
+        </div>
+        <button
+          onClick={() => logout()}
+          className="px-4 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-xs font-bold text-red-600 transition-colors flex items-center gap-1.5 cursor-pointer border border-red-200"
+        >
+          <LogOut className="w-3.5 h-3.5" />
+          Log Out
+        </button>
+      </div>
+
       {/* Reset Demo State Button */}
       <div className="p-4 bg-[#FAF6EC] rounded-2xl border border-[#EFE8D8] flex items-center justify-between">
         <div>

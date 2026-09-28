@@ -4,6 +4,7 @@ import { INITIAL_USERS, INITIAL_ITEMS, INITIAL_CLAIMS, INITIAL_MESSAGES, INITIAL
 
 interface AppContextType {
   currentUser: User | null;
+  isAuthLoading: boolean;
   allUsers: User[];
   items: Item[];
   claims: Claim[];
@@ -27,6 +28,7 @@ interface AppContextType {
   // Actions
   login: (email: string, pass: string) => boolean;
   signup: (userData: { name: string; email: string; department: string; year: string }) => void;
+  loginWithOAuth: (provider: 'google' | 'apple') => void;
   logout: () => void;
   switchUser: (userId: string) => void;
   addItem: (itemData: Omit<Item, 'itemId' | 'userId' | 'userName' | 'userEmail' | 'userDepartment' | 'createdAt' | 'status'>) => string;
@@ -44,14 +46,24 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
+
   // Load or initialize state with localStorage persistence
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('campusfind_user');
     if (saved) {
       try { return JSON.parse(saved); } catch (e) { /* ignore */ }
     }
-    return INITIAL_USERS[0]; // Aarav Sharma by default
+    return null; // Front auth gate: start unauthenticated unless user session is in localStorage
   });
+
+  // Short initial auth check to avoid UI flashing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAuthLoading(false);
+    }, 250);
+    return () => clearTimeout(timer);
+  }, []);
 
   const [allUsers, setAllUsers] = useState<User[]>(() => {
     const saved = localStorage.getItem('campusfind_all_users');
@@ -168,6 +180,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setAllUsers(prev => [newUser, ...prev]);
     setCurrentUser(newUser);
+    setAuthModalOpen(false);
+  };
+
+  const loginWithOAuth = (provider: 'google' | 'apple') => {
+    // Generate a clean student profile for Google / Apple OAuth sign in
+    const isGoogle = provider === 'google';
+    const email = isGoogle ? 'student.google@campus.edu' : 'student.apple@campus.edu';
+    const existing = allUsers.find(u => u.email === email);
+    if (existing) {
+      setCurrentUser(existing);
+      setAuthModalOpen(false);
+      return;
+    }
+    const oAuthUser: User = {
+      userId: `oauth_${provider}_${Date.now()}`,
+      name: isGoogle ? 'Google Campus Student' : 'Apple Campus Student',
+      email,
+      department: 'Computer Science & Engineering',
+      year: '2nd Year',
+      avatar: isGoogle 
+        ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
+        : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+      createdAt: new Date().toISOString().split('T')[0],
+    };
+    setAllUsers(prev => [oAuthUser, ...prev]);
+    setCurrentUser(oAuthUser);
     setAuthModalOpen(false);
   };
 
@@ -406,6 +444,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppContext.Provider
       value={{
         currentUser,
+        isAuthLoading,
         allUsers,
         items,
         claims,
@@ -427,6 +466,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsChatbotOpen,
         login,
         signup,
+        loginWithOAuth,
         logout,
         switchUser,
         addItem,

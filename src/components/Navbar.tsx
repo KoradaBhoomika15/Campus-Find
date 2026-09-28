@@ -398,11 +398,20 @@ export const Navbar: React.FC = () => {
           <button
             onClick={() => { setActiveTab('profile'); setMobileMenuOpen(false); setSelectedItemId(null); }}
             className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium ${
-              activeTab === 'profile' ? 'bg-[#FEF9C3] text-[#713F12]' : 'text-[#5C5349]'
+              activeTab === 'profile' ? 'bg-[#FEF08A] text-[#713F12]' : 'text-[#5C5349]'
             }`}
           >
             Profile &amp; Settings
           </button>
+          {currentUser && (
+            <button
+              onClick={() => { logout(); setMobileMenuOpen(false); }}
+              className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 flex items-center gap-2 border-t border-[#EFE8D8] mt-1 pt-2"
+            >
+              <LogOut className="w-4 h-4 text-red-500" />
+              Sign Out
+            </button>
+          )}
         </div>
       )}
     </header>

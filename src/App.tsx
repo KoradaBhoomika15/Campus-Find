@@ -17,6 +17,7 @@ import { ItemDetailsModal } from './components/ItemDetailsModal';
 import { ClaimModal } from './components/ClaimModal';
 import { ContactModal } from './components/ContactModal';
 import { AuthModal } from './components/AuthModal';
+import { AuthGuard } from './components/AuthGuard';
 import { BottomNav } from './components/BottomNav';
 import { N8nChatbot } from './components/N8nChatbot';
 import { ShieldCheck, Heart, Sparkles, MapPin, Phone } from 'lucide-react';
@@ -142,7 +143,9 @@ const MainContent: React.FC = () => {
 export default function App() {
   return (
     <AppProvider>
-      <MainContent />
+      <AuthGuard>
+        <MainContent />
+      </AuthGuard>
     </AppProvider>
   );
 }
