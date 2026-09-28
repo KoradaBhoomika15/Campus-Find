@@ -1,0 +1,6 @@
+{
+  "name": "CampusFind – College Lost & Found",
+  "description": "A simple and trusted way for students to report, search, and recover lost belongings around campus with smart matching.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
