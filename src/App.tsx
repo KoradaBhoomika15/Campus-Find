@@ -18,6 +18,7 @@ import { ClaimModal } from './components/ClaimModal';
 import { ContactModal } from './components/ContactModal';
 import { AuthModal } from './components/AuthModal';
 import { BottomNav } from './components/BottomNav';
+import { N8nChatbot } from './components/N8nChatbot';
 import { ShieldCheck, Heart, Sparkles, MapPin, Phone } from 'lucide-react';
 
 const MainContent: React.FC = () => {
@@ -91,6 +92,9 @@ const MainContent: React.FC = () => {
       )}
 
       <AuthModal />
+ 
+      {/* n8n Live Chatbot Assistant */}
+      <N8nChatbot />
 
       {/* Bottom mobile navigation */}
       <BottomNav />

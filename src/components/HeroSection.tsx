@@ -12,7 +12,8 @@ import {
   Layers, 
   CheckCircle2, 
   MessageSquare,
-  FileText
+  FileText,
+  Bot
 } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
@@ -20,7 +21,8 @@ export const HeroSection: React.FC = () => {
     currentUser, 
     items, 
     setActiveTab, 
-    setSelectedItemId 
+    setSelectedItemId,
+    setIsChatbotOpen
   } = useApp();
 
   const recentItems = items.slice(0, 6);
@@ -173,6 +175,14 @@ export const HeroSection: React.FC = () => {
               >
                 <Search className="w-4 h-4 text-[#854D0E]" />
                 Browse Items
+              </button>
+
+              <button
+                onClick={() => setIsChatbotOpen(true)}
+                className="px-5 py-3.5 rounded-2xl bg-[#FFFDF9] hover:bg-[#FAF4E6] text-[#713F12] border border-[#E8DEC9] font-bold text-sm shadow-xs hover:shadow-md transition-all flex items-center gap-2 transform active:scale-95"
+              >
+                <Bot className="w-4 h-4 text-[#CA8A04]" />
+                Ask n8n Assistant
               </button>
             </div>
 

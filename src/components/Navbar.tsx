@@ -27,7 +27,8 @@ export const Navbar: React.FC = () => {
     setAuthModalOpen,
     setAuthModalMode,
     logout,
-    messages
+    messages,
+    setIsChatbotOpen
   } = useApp();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -141,6 +142,14 @@ export const Navbar: React.FC = () => {
             >
               <MessageSquare className="w-4 h-4 text-[#854D0E]" />
               Messages
+            </button>
+            <button
+              onClick={() => setIsChatbotOpen(true)}
+              className="px-3.5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 bg-[#FEF08A]/70 hover:bg-[#FEF08A] text-[#713F12] border border-[#FDE047] shadow-2xs"
+              title="Open n8n Campus Assistant"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#B45309]" />
+              AI Assistant
             </button>
           </nav>
 
@@ -375,6 +384,16 @@ export const Navbar: React.FC = () => {
             }`}
           >
             Messages
+          </button>
+          <button
+            onClick={() => { setIsChatbotOpen(true); setMobileMenuOpen(false); }}
+            className="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold text-[#713F12] bg-[#FEF08A]/70 flex items-center justify-between"
+          >
+            <span className="flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-[#B45309]" />
+              AI Assistant (n8n)
+            </span>
+            <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold">Online</span>
           </button>
           <button
             onClick={() => { setActiveTab('profile'); setMobileMenuOpen(false); setSelectedItemId(null); }}

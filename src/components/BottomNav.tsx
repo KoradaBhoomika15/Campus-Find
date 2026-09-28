@@ -1,9 +1,9 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Home, Search, PlusCircle, Sparkles, User as UserIcon } from 'lucide-react';
+import { Home, Search, PlusCircle, Sparkles, User as UserIcon, Bot } from 'lucide-react';
 
 export const BottomNav: React.FC = () => {
-  const { activeTab, setActiveTab, setSelectedItemId } = useApp();
+  const { activeTab, setActiveTab, setSelectedItemId, setIsChatbotOpen } = useApp();
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#FFFDF9]/95 backdrop-blur-md border-t border-[#EFE8D8] py-1.5 px-3 shadow-lg">
@@ -51,6 +51,14 @@ export const BottomNav: React.FC = () => {
         >
           <Sparkles className="w-5 h-5 text-[#CA8A04]" />
           <span className="text-[10px] mt-0.5">Matches</span>
+        </button>
+
+        <button
+          onClick={() => setIsChatbotOpen(true)}
+          className="flex flex-col items-center py-1 px-2 rounded-xl text-[#857B72] hover:text-[#713F12] transition-all"
+        >
+          <Bot className="w-5 h-5 text-[#B45309]" />
+          <span className="text-[10px] mt-0.5">AI Chat</span>
         </button>
 
         <button

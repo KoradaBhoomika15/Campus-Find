@@ -265,6 +265,38 @@ Return JSON:
   }
 });
 
+// Endpoint 4: n8n Chatbot Webhook Proxy (handles CORS smoothly)
+app.post('/api/n8n/chat', async (req: Request, res: Response) => {
+  try {
+    const n8nWebhookUrl = 'https://bhoomikorada9.app.n8n.cloud/webhook/bb257d10-103d-45be-a5f6-2a8d8ae923c4/chat';
+    const payload = req.body;
+
+    const response = await fetch(n8nWebhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json, text/plain, */*',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const data = await response.json();
+      return res.status(response.status).json(data);
+    } else {
+      const text = await response.text();
+      return res.status(response.status).send(text);
+    }
+  } catch (error: any) {
+    console.error('Error proxying to n8n webhook:', error);
+    return res.status(502).json({
+      error: 'Failed to contact n8n webhook',
+      details: error?.message || 'Network error',
+    });
+  }
+});
+
 // Vite middleware in dev or static files in production
 async function startServer() {
   const isProd = process.env.NODE_ENV === 'production';

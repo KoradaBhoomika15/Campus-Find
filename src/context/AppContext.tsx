@@ -21,6 +21,8 @@ interface AppContextType {
   setClaimModalItemId: (id: string | null) => void;
   contactModalItemId: string | null;
   setContactModalItemId: (id: string | null) => void;
+  isChatbotOpen: boolean;
+  setIsChatbotOpen: (open: boolean) => void;
   
   // Actions
   login: (email: string, pass: string) => boolean;
@@ -97,6 +99,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('login');
   const [claimModalItemId, setClaimModalItemId] = useState<string | null>(null);
   const [contactModalItemId, setContactModalItemId] = useState<string | null>(null);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
   // Sync state to LocalStorage
   useEffect(() => {
@@ -420,6 +423,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setClaimModalItemId,
         contactModalItemId,
         setContactModalItemId,
+        isChatbotOpen,
+        setIsChatbotOpen,
         login,
         signup,
         logout,
